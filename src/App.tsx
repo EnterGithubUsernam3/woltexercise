@@ -21,9 +21,9 @@ function App() {
 
   //These states control if and when the output message or the warning
   //message will appear
-  const [toggleOutputVisibility, setOutputVisibility] = useState("is-hidden");
+  const [outputVisibility, setOutputVisibility] = useState("is-hidden");
 
-  const [toggleWarningVisibility, setWarningVisibility] = useState("is-hidden");
+  const [warningVisibility, setWarningVisibility] = useState("is-hidden");
 
   //Event handlers for the changes in the input fields
   const handleCartValueChange: any = (
@@ -49,6 +49,25 @@ function App() {
   ) => {
     setDateAndTime(event.target.value);
   };
+
+  const handleWarningMessageToggle : any = (
+    event: React.MouseEventHandler) =>
+      setWarningVisibility("is-hidden");
+
+  const handleOutputToggle : any = (
+    event: React.MouseEventHandler) =>
+      setOutputVisibility("is-hidden");
+
+  const handleClearEvent : any = (
+    event:React.MouseEventHandler) =>
+    {
+      setCartValue("");
+      setDistanceValue("");
+      setItemsValue("");
+      setDateAndTime("");
+      setOutput("");
+      setOutputVisibility("is-hidden");
+    }
 
   //The event handler for calculating the delivery cost by clicking the submit button
 
@@ -101,6 +120,7 @@ function App() {
                 placeholder="Type the cart value"
                 id="theCartValueField"
                 onChange={handleCartValueChange}
+                value={orderValue}
               />
             </p>
           </div>
@@ -114,6 +134,7 @@ function App() {
               placeholder="The distance is counted in meters"
               id="distanceField"
               onChange={handleDeliveryDistanceChange}
+              value={deliveryDistance}
             />
           </div>
         </div>
@@ -126,6 +147,7 @@ function App() {
               placeholder="How many items does your order have?"
               id="amountOfItemsField"
               onChange={handleNumberOfItemsChange}
+              value={itemsInCart}
             />
           </div>
         </div>
@@ -137,6 +159,7 @@ function App() {
               className="input"
               id="dateTimeField"
               onChange={handleDateAndTimeChange}
+              value={timeOfDelivery}
             />
           </div>
         </div>
@@ -147,27 +170,27 @@ function App() {
             </button>
           </div>
           <div className="control">
-            <button className="button is-link is-light">Clear</button>
+            <button className="button is-link is-light" onClick={handleClearEvent}>Clear</button>
           </div>
         </div>
       </div>
 
-      <div id="output" className={toggleOutputVisibility}>
+      <div id="output" className={outputVisibility}>
         <article className="message is-info">
           <div className="message-header">
             <p>Success!</p>
-            <button className="delete" aria-label="delete"></button>
+            <button className="delete" aria-label="delete" onClick={handleOutputToggle}></button>
           </div>
           <div className="message-body">{output}</div>
         </article>
       </div>
 
       {/* WARNING MESSAGE IN CASE ONE OF THE FIELDS IS EMPTY */}
-      <div id="warningMessage" className={toggleWarningVisibility}>
+      <div id="warningMessage" className={warningVisibility}>
         <article className="message is-danger">
           <div className="message-header">
             <p>Attention!</p>
-            <button className="delete" aria-label="delete"></button>
+            <button className="delete" aria-label="delete" onClick={handleWarningMessageToggle}></button>
           </div>
           <div className="message-body">Every field must be filled!</div>
         </article>
